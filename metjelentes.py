@@ -1,67 +1,55 @@
 from datetime import datetime
 
-class meres:
+class jelentes:
     def __init__(self, telepules, ido, szelirany, homerseklet):
         self.telepules = telepules
         self.ido = ido
         self.szelirany = szelirany
         self.homerseklet = homerseklet
 
-meresek = []
+jelentesek = []
 
-with open("/Users/sany/Documents/programozas(maganora)/Érettségire_készülés/./tavirathu13.txt", "r") as bement:
-    for sor in bement:
+with open("/Users/sany/Documents/programozas(maganora)/2020érettségi/tavirathu13.txt", "r") as bemenet:
+    for sor in bemenet:
         mezok = sor.strip().split(" ")
-        meresek.append(meres(mezok[0], datetime(1,1,1, int(mezok[1][0:2]),int(mezok[1][2:4])), mezok[2], int(mezok[3])))
+        jelentesek.append(jelentes(mezok[0], datetime(1,1,1, int(mezok[1][0:2]), int(mezok[1][2:4])), mezok[2], int(mezok[3])))
 
-#2. feladat----------
+#2.feladat--------------
         
 print("2. feladat")
-bekert_tel = input("Adja meg egy település kódját! Település: ")
-bekert_tel_utso = ""
-for i in range(len(meresek)):
-    if bekert_tel == meresek[i].telepules:
-        bekert_tel_utso = meresek[i].ido
 
-print(f"Az utolsó mérési adat a megadott településről {bekert_tel_utso.hour}:{bekert_tel_utso.minute}-kor érkezett.")
+bekert_varos = input("Adja meg egy település kódját! Település: ")
 
-#3.feladat------
+utso_meres = datetime(1,1,1,0,0)
 
+for i in range(len(jelentesek)-1, -1, -1):
+    if bekert_varos == jelentesek[i].telepules:
+        print(f"Az utolsó mérési adat a megadott településről {jelentesek[i].ido.hour} : {jelentesek[i].ido.minute} -kor érkezett.")
+        break
+    
+#3.feladat----------
 print("3. feladat")
-#legalacsonyabb = meresek[0]
 
-#for i in range(len(meresek)):
-#    if meresek[i].homerseklet < legalacsonyabb:
-#        legalacsonyabb = meresek[i]
+min_meres = jelentesek[0]
+max_meres = jelentesek[0]
 
-#print(f"A legalacsonyabb hőmérséklet: {legalacsonyabb.telepules}   fok")
+for i in range(len(jelentesek)):
+    if jelentesek[i].homerseklet < min_meres.homerseklet:
+        jelentesek[i] = min_meres
+    elif jelentesek[i].homerseklet > max_meres.homerseklet:
+        jelentesek[i] = max_meres
 
-max_meres = meresek[0]
-min_meres = meresek[0]
-for i in range(len(meresek)):
-    if meresek[i].homerseklet > max_meres.homerseklet:
-        max_meres = meresek[i]
-    if meresek[i].homerseklet < min_meres.homerseklet:
-        min_meres = meresek[i]
-print(f"A legalacsonyabb hőmérséklet: {min_meres.telepules} {min_meres.ido.hour}:{min_meres.ido.minute} {min_meres.homerseklet} fok.")
-print(f"A legmagasabb hőmérséklet: {max_meres.telepules} {max_meres.ido.hour}:{max_meres.ido.minute} {max_meres.homerseklet} fok.")
 
-#4.feladat------------
+print(f"A legalacsonyabb hőmérséklet: {min_meres.telepules} {min_meres.ido.hour} : {min_meres.ido.minute} {min_meres.homerseklet} fok")
 
+#4.feladat-------
 print("4. feladat")
 szelcsend = False
-for i in range(len(meresek)):
-    if meresek[i].szelirany == "00000":
-        print(f"{meresek[i].telepules} {meresek[i].ido.hour} : {meresek[i].ido.minute}")
+
+for i in range(len(jelentesek)):
+    if jelentesek[i].szelirany == "00000":
+        print(f"{jelentesek[i].telepules} {jelentesek[i].ido.hour} : {jelentesek[i].ido.minute}")
         szelcsend = True
-    if not szelcsend:
-        print("Nem volt szélcsend a mérések idején.")
 
-#5.feladat----------
-        
-for i in range(len(meresek)):
-
-
-
-                       
-
+if not szelcsend:
+    print("Nem volt szélcsend a mérések idején.")
